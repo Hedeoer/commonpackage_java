@@ -11,6 +11,10 @@ public class User {
         this.name = name;
     }
 
+    public String getFirstName() {
+        return null;
+    }
+
     @JsonIgnoreType
     public static class Name {
         public String firstName;

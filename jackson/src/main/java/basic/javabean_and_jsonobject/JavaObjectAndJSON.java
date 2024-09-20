@@ -1,4 +1,4 @@
-package javabean_and_jsonobject;
+package basic.javabean_and_jsonobject;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;

@@ -1,4 +1,4 @@
-package jackson_annotations;
+package basic.jackson_annotations;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
