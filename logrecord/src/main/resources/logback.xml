@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- Logback 中有效日志级别：TRACE、DEBUG、INFO、WARN、ERROR，优先级从低到高 -->
+<configuration scan="true" scanPeriod="60 seconds" debug="false"> <!-- 自动重新加载配置 -->
+
+    <property name="DIR_NAME" value="spring-helloworld"/> <!-- 日志目录的名称 -->
+
+    <!-- 控制台输出日志 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"> <!-- 控制台输出 -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] [%-5p] %c{36}.%M - %m%n</pattern> <!-- 定义输出格式 -->
+        </encoder>
+    </appender>
+
+    <!-- RollingFileAppender 开始 -->
+    <appender name="ALL" class="ch.qos.logback.core.rolling.RollingFileAppender"> <!-- 所有日志文件 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> <!-- 时间滚动策略 -->
+            <fileNamePattern>${user.dir}/logs/${DIR_NAME}/all.%d{yyyy-MM-dd}.log</fileNamePattern> <!-- 日志文件名格式 -->
+            <maxHistory>30</maxHistory> <!-- 保留30天的日志 -->
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy"> <!-- 大小触发策略 -->
+            <maxFileSize>30MB</maxFileSize> <!-- 最大文件大小为30MB -->
+        </triggeringPolicy>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] [%-5p] %c{36}.%M - %m%n</pattern> <!-- 日志输出格式 -->
+        </encoder>
+    </appender>
+
+    <!-- ERROR 日志专用 RollingFileAppender -->
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender"> <!-- 只记录错误日志 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${user.dir}/logs/${DIR_NAME}/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>10MB</maxFileSize> <!-- 最大文件大小为10MB -->
+        </triggeringPolicy>
+
+        <!-- 仅记录 ERROR 级别日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level> <!-- 设置日志级别为 ERROR -->
+            <onMatch>ACCEPT</onMatch> <!-- 匹配时接受 -->
+            <onMismatch>DENY</onMismatch> <!-- 不匹配时拒绝 -->
+        </filter>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] [%-5p] %c{36}.%M - %m%n</pattern> <!-- 输出格式 -->
+        </encoder>
+    </appender>
+
+    <!-- WARN 日志专用 RollingFileAppender -->
+    <appender name="WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${user.dir}/logs/${DIR_NAME}/warn.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>10MB</maxFileSize>
+        </triggeringPolicy>
+
+        <!-- 仅接受 WARN 级别日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level> <!-- 设置日志级别为 WARN -->
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] [%-5p] %c{36}.%M - %m%n</pattern> <!-- 日志输出格式 -->
+        </encoder>
+    </appender>
+
+    <!-- INFO 日志专用 RollingFileAppender -->
+    <appender name="INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${user.dir}/logs/${DIR_NAME}/info.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>10MB</maxFileSize>
+        </triggeringPolicy>
+
+        <!-- 仅接受 INFO 级别日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level> <!-- 设置日志级别为 INFO -->
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] [%-5p] %c{36}.%M - %m%n</pattern> <!-- 日志输出格式 -->
+        </encoder>
+    </appender>
+
+    <!-- DEBUG 日志专用 RollingFileAppender -->
+    <appender name="DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${user.dir}/logs/${DIR_NAME}/debug.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>10MB</maxFileSize>
+        </triggeringPolicy>
+
+        <!-- 仅接受 DEBUG 级别日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level> <!-- 设置日志级别为 DEBUG -->
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] [%-5p] %c{36}.%M - %m%n</pattern> <!-- 日志输出格式 -->
+        </encoder>
+    </appender>
+
+    <!-- TRACE 日志专用 RollingFileAppender -->
+    <appender name="TRACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${user.dir}/logs/${DIR_NAME}/trace.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>10MB</maxFileSize>
+        </triggeringPolicy>
+
+        <!-- 仅接受 TRACE 级别日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>TRACE</level> <!-- 设置日志级别为 TRACE -->
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] [%-5p] %c{36}.%M - %m%n</pattern> <!-- 日志输出格式 -->
+        </encoder>
+    </appender>
+
+    <!-- 其他日志级别（WARN、INFO、DEBUG、TRACE）配置类似，省略细节 -->
+
+    <!-- logger 开始 -->
+    <logger name="cn.hedeoer" level="info" additivity="false"> <!-- 定义特定包的日志配置 -->
+        <appender-ref ref="STDOUT"/> <!-- 将日志输出到控制台 -->
+        <appender-ref ref="ERROR"/>  <!-- 将错误日志输出到文件 -->
+        <appender-ref ref="WARN"/>   <!-- 将警告日志输出到文件 -->
+        <appender-ref ref="INFO"/>   <!-- 将信息日志输出到文件 -->
+        <appender-ref ref="DEBUG"/>  <!-- 将调试日志输出到文件 -->
+        <appender-ref ref="TRACE"/>  <!-- 将追踪日志输出到文件 -->
+    </logger>
+
+    <!-- 根日志配置 -->
+    <root level="INFO"> <!-- 根日志级别设置为 INFO -->
+        <appender-ref ref="ALL"/> <!-- 输出到所有日志 -->
+    </root>
+    <!-- logger 结束 -->
+
+</configuration>

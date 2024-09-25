@@ -24,3 +24,7 @@
 ### 1.2 fastjson
 
 ### 1.3 gson
+
+## 2.常见日志处理库
+### 2.1 日志门面：slf4j，common-logging
+### 2.2 日志实现：log4j2，logback，log4j, jdk-logging
