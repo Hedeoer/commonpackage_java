@@ -11,6 +11,7 @@
     <modules>
         <module>fastjson</module>
         <module>jackson</module>
+        <module>readAndwrite</module>
     </modules>
 
     <properties>
