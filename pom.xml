@@ -12,6 +12,8 @@
         <module>fastjson</module>
         <module>jackson</module>
         <module>readAndwrite</module>
+        <module>spock</module>
+        <module>basereview</module>
     </modules>
 
     <properties>
