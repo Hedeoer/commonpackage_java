@@ -28,3 +28,10 @@
 ## 2.常见日志处理库
 ### 2.1 日志门面：slf4j，common-logging
 ### 2.2 日志实现：log4j2，logback，log4j, jdk-logging
+
+
+## 3. fastexcel（1.1.0版本）
+使用fastexcel对excel文件的读写操作
+
+1. 实践几种对excel文件的读取方式
+

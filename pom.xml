@@ -14,6 +14,8 @@
         <module>readAndwrite</module>
         <module>spock</module>
         <module>basereview</module>
+        <module>commosio</module>
+        <module>fastexcel</module>
     </modules>
 
     <properties>
@@ -22,6 +24,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.8.2</junit.version>
         <hamcrest.version>2.2</hamcrest.version>
+        <lombok.version>1.18.36</lombok.version>
     </properties>
 
 
@@ -40,6 +43,14 @@
                 <artifactId>hamcrest</artifactId>
                 <version>${hamcrest.version}</version>
                 <scope>compile</scope>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
             </dependency>
 
         </dependencies>
