@@ -16,6 +16,7 @@
         <module>basereview</module>
         <module>commosio</module>
         <module>fastexcel</module>
+        <module>datapipline</module>
     </modules>
 
     <properties>
