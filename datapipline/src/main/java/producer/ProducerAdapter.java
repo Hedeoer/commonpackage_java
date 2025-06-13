@@ -19,6 +19,14 @@ import java.util.concurrent.Future;
 public class ProducerAdapter {
 
 
+    /**
+     * 发送命令 (Master -> Agent):
+     * Topic: master_to_agent_commands
+     * Partitioner: 主节点在发送命令时，使用目标 agent_id 作为消息的 Key。Kafka 的默认分区器会根据 Key 的哈希值将消息路由到特定的分区。
+     * Correlation ID: 主节点为每个命令生成一个唯一的 correlation_id (例如 UUID)。这个 ID 需要包含在发送给从节点的消息中（可以放在消息体或消息头中）。
+     * Reply-to Topic (可选但推荐): 主节点可以在命令消息中（消息体或消息头）指定期望接收响应的 Topic，即 agent_to_master_responses。
+     * Master 内部状态: 主节点在发送命令后，需要记录这个 correlation_id 以及一个用于接收响应的机制（例如一个 CompletableFuture 或一个回调），并设置一个超时时间。
+     */
     public static void masterToAgentCommand() {
 
 
@@ -27,6 +35,10 @@ public class ProducerAdapter {
         props.put("linger.ms", 1);
         props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        props.put("enable.idempotence", "true");
+        props.put("acks", "all");
+        props.put("min.insync.replicas",2);
+
 
         Producer<String, String> producer = new KafkaProducer<>(props);
         String topic = "master_to_agent_commands";
@@ -34,7 +46,7 @@ public class ProducerAdapter {
         if (!KafkaClientAdminUtil.topicExists(topic)) {
             return;
         }
-        Integer partition = null; // 需要计算
+        Integer partition = null; // 不指定，kafka自动计算分区
         String key = "agent01";  // 从节点机器的唯一标识
         String value = "{\"command\":\"EXECUTE_TASK\",\"timestamp\":1634567890123,\"priority\":\"HIGH\",\"parameters\":{\"taskId\":\"task-a1b2c3d4\",\"executionTimeout\":3600,\"retryCount\":3,\"args\":[\"--verbose\",\"--force\"]}}"; // json消息体
         String commandId = UUID.randomUUID().toString();
