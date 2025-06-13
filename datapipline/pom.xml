@@ -10,7 +10,6 @@
     </parent>
 
     <artifactId>datapipline</artifactId>
-
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
@@ -18,7 +17,10 @@
         <jackson.version>2.17.2</jackson.version>
     </properties>
 
+
+
     <dependencies>
+
         <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
         <!--已知kafka集群版本为3.3.1,可以选择没有漏洞的3版本-->
         <dependency>
@@ -26,6 +28,7 @@
             <artifactId>kafka-clients</artifactId>
             <version>3.3.1</version>
         </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
         <dependency>
@@ -45,7 +48,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-
 
     </dependencies>
 
