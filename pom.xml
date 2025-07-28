@@ -17,6 +17,7 @@
         <module>commosio</module>
         <module>fastexcel</module>
         <module>datapipline</module>
+        <module>hutools</module>
     </modules>
 
     <properties>
