@@ -18,6 +18,8 @@
         <module>fastexcel</module>
         <module>datapipline</module>
         <module>hutools</module>
+        <module>platformapi</module>
+        <module>logrecord</module>
     </modules>
 
     <properties>
