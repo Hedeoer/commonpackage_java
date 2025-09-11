@@ -5,8 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import entity.SocialPicture;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
-import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
+import org.apache.flink.configuration.Configuration;
 import org.apache.flink.connector.kafka.source.KafkaSource;
 import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -23,7 +24,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public class KafkaCapture {
+/**
+ *  方案1：该类使用flink的 kafka connector读取kafka模拟流式数据的不断捕获，然后上次阿里云 oss
+ */
+public class FlinkOssUploader {
     public static void main(String[] args) throws Exception {
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
@@ -65,15 +69,25 @@ public class KafkaCapture {
 
     }
 
-    private static class SocialPictureMap implements MapFunction<String, SocialPicture> {
+    private static class SocialPictureMap extends RichMapFunction<String, SocialPicture> {
+
+        private transient ObjectMapper objectMapper;
+
+        @Override
+        public void open(Configuration parameters) throws Exception {
+            super.open(parameters);
+            // Jackson 实例应该在 Rich Function 的 open() 方法中初始化。
+            this.objectMapper = new ObjectMapper();
+            objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+        }
+
         @Override
         public SocialPicture map(String value)  {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+
             SocialPicture socialPicture = SocialPicture.builder().build();
             if (value != null && !value.isEmpty()) {
                 try {
-                    socialPicture= mapper.readValue(value, SocialPicture.class);
+                    socialPicture= objectMapper.readValue(value, SocialPicture.class);
                 } catch (JsonProcessingException e) {
                     throw new RuntimeException(e);
                 }
